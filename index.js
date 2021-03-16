@@ -2,9 +2,17 @@
 
 //importing the express library/framework
 const express = require('express');
+//const bodyParser = require('body-parser');
 
 //instantiating express in constant app
 const app = express();
+
+//middleware
+app.use(express.urlencoded({extended: true}));
+//setting pug as templete engine 
+app.set('view engine', 'pug');
+app.set('views', './views');
+
 
 //home route
 app.get('/', (req, res) => { 
@@ -17,8 +25,31 @@ app.get('/about', (req, res) => {
     res.send('About page. Nice')
 });
 
+//post route
+app.post('/quotes', (req, res) => {
+    console.log(req.body);
+});
+
+//path parameters
+//query parameters
+
+
+
 //server to run at port 3000
 app.listen(3804, () => console.log('listening on port 3804'));
+
+
+
+
+
+/**
+ * what is crud
+ * what are http methods
+ */
+
+
+
+
 
 /**
  * when user visits browser at http://localhost:3804/ 
