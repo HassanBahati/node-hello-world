@@ -15,9 +15,10 @@ app.set('views', './views');
 
 
 //home route
-app.get('/', (req, res) => { 
+app.get('/createEmployee', (req, res) => { 
     // res.send('Homepage! Hello World.');
-    res.sendFile(__dirname + '/index.html')
+    //res.sendFile(__dirname + '/index.html')
+    res.render('createEmployee', {title: 'Hello from pug'});
 });
 
 //about route
@@ -30,13 +31,15 @@ app.post('/quotes', (req, res) => {
     console.log(req.body);
 });
 
-//path parameters
+//path parameters -used to specify the exact route
+
+
 //query parameters
 
 
 
 //server to run at port 3000
-app.listen(3804, () => console.log('listening on port 3804'));
+app.listen(3000, () => console.log('listening on port 3804'));
 
 
 
@@ -60,4 +63,13 @@ app.listen(3804, () => console.log('listening on port 3804'));
  * -- then the second argument is a call back function whith 2 arguments (req,res), 
  * --it use   s the res object to send a response back to the browser , it does this by send() method res.send()
  * For Callbacks --we are usign ES^ arrow functions instead of the older way of writing functions  
+ */
+
+/**
+ * app.set('view engine', 'pug');
+app.set('views', './views');
+
+app.use(express.static('public'));
+that is under middleware
+
  */
