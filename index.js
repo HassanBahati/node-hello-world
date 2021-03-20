@@ -9,37 +9,43 @@ const app = express();
 
 //middleware
 app.use(express.urlencoded({extended: true}));
-//setting pug as templete engine 
+//configurations- setting pug as templete engine 
 app.set('view engine', 'pug');
 app.set('views', './views');
 
+//middleware for serving static files(csss, js , images)
+app.use(express.static('public'));
 
-//home route
+//createEmployee route
 app.get('/createEmployee', (req, res) => { 
     // res.send('Homepage! Hello World.');
     //res.sendFile(__dirname + '/index.html')
-    res.render('createEmployee', {title: 'Hello from pug'});
+    res.render('createEmployee', {title: 'Employee'});
 });
 
-//about route
-app.get('/about', (req, res) => {
-    res.send('About page. Nice')
-});
+//orders route
+app.get('/createOrders', (req, res) => {
+    res.render('createOrders', {title: 'create Order'})
+})
 
 //post route
-app.post('/quotes', (req, res) => {
+app.post('/createEmployeee', (req, res) => {
     console.log(req.body);
 });
 
 //path parameters -used to specify the exact route
 
+//incase a route doesnt exist
+app.get('*', (req, res) => {
+    res.send('the route specified doesnt exist')
+})
 
 //query parameters
 
 
 
 //server to run at port 3000
-app.listen(3000, () => console.log('listening on port 3804'));
+app.listen(3000, () => console.log('listening on port 3000'));
 
 
 
