@@ -13,15 +13,27 @@ app.use(express.urlencoded({extended: true}));
 app.set('view engine', 'pug');
 app.set('views', './views');
 
+//custom middleware
+app.use((req, res, next) => {
+    console.log('a new request received aat ' + Date.now());
+    next(); 
+})
+
 //middleware for serving static files(csss, js , images)
 app.use(express.static('public'));
 
-//createEmployee route
-app.get('/createEmployee', (req, res) => { 
-    // res.send('Homepage! Hello World.');
-    //res.sendFile(__dirname + '/index.html')
-    res.render('createEmployee', {title: 'Employee'});
-});
+// //createEmployee route
+// app.get('/createEmployee', (req, res) => { 
+//     // res.send('Homepage! Hello World.');
+//     //res.sendFile(__dirname + '/index.html')
+//     res.render('createEmployee', {title: 'Employee'});
+// });
+
+//import employee route
+const employeeRoutes = require('./routes/employeeRoute')
+
+//instantiting employee route 
+app.use('/employee', employeeRoutes);
 
 //orders route
 app.get('/createOrders', (req, res) => {
