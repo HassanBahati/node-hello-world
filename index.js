@@ -40,10 +40,6 @@ app.get('/createOrders', (req, res) => {
     res.render('createOrders', {title: 'create Order'})
 })
 
-//post route
-app.post('/createEmployeee', (req, res) => {
-    console.log(req.body);
-});
 
 //path parameters -used to specify the exact route
 
