@@ -12,7 +12,7 @@ router.get('/createEmployee', (req, res) => {
 
 
 //post employee
-router.post('/createEmploye', (req, res) => {
+router.post('/createEmployee', (req, res) => {
     console.log(req.body);
 });
 
@@ -36,7 +36,6 @@ router.post('/createEmployee', upload.single('imageupload'), (req,res) => {
         res.send(400);
     }
 })
-
 
 //exports
 module.exports = router;
