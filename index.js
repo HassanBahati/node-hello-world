@@ -2,10 +2,28 @@
 
 //importing the express library/framework
 const express = require('express');
+const mongoose = require('mongoose');
 //const bodyParser = require('body-parser');
+
+require('dotenv');
 
 //instantiating express in constant app
 const app = express();
+
+
+//db connection 
+mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
+  
+  mongoose.connection
+  .on('open', () => {
+    console.log('Mongoose connection open');
+  })
+  .on('error', (err) => {
+    console.log(`Connection error: ${err.message}`);
+  });
 
 //middleware
 app.use(express.urlencoded({extended: true}));

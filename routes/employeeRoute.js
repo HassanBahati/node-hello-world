@@ -28,14 +28,26 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage})
 
-router.post('/createEmployee', upload.single('imageupload'), (req,res) => {
-    try {
-        console.log(req.file)
-    }
-    catch(err) {
-        res.send(400);
-    }
+// router.post('/createEmployee', upload.single('imageupload'), (req,res) => {
+//     try {
+//         console.log(req.file)
+//     }
+//     catch(err) {
+//         res.send(400);
+//     }
+// })
+
+router.post('/createEmployee', upload.single('imageupload'), (req, res) => {
+    const employee = new Employee(req.body);
+    employee.imageupload = req.file.path;
+    employee.save()
+    .then(() => { res.send('Thank you for your registration!')})
+    .catch((err) => {
+        console.log(err);
+        res.send('Sorry! Something went wrong.');
+    })
 })
+
 
 //exports
 module.exports = router;
