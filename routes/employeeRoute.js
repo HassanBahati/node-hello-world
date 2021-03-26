@@ -1,7 +1,7 @@
 //imports
 const express = require('express');
 const multer = require('multer');
-
+const Employee = require('../models/Employee')
 //instantiating router from express
 const router = express.Router();
 
@@ -10,11 +10,18 @@ router.get('/createEmployee', (req, res) => {
     res.render('createEmployee', {title: 'Employee'});
 });
 
-
-//post employee
-router.post('/createEmployee', (req, res) => {
-    console.log(req.body);
+//list 
+router.get('/', async (req, res) => { 
+    try{
+        //find all data in database 
+        const employeeDetails = await Employee.find();
+        res.render('employeeList', {users:employeeDetails, title: 'EmployeeList'});
+       
+    }catch(err){
+        res.send('Failed to retireve Employee Details ')
+    }
 });
+
 
 //image upload 
 var storage = multer.diskStorage({
@@ -37,17 +44,34 @@ var upload = multer({storage: storage})
 //     }
 // })
 
-router.post('/createEmployee', upload.single('imageupload'), (req, res) => {
-    const employee = new Employee(req.body);
+router.post('/createEmployee', upload.single('imageupload'), async (req, res) => {
+    try{
+        console.log(req.body);
+        const employee = new Employee(req.body);
+      
     employee.imageupload = req.file.path;
-    employee.save()
-    .then(() => { res.send('Thank you for your registration!')})
-    .catch((err) => {
+        //await code performing db operation 
+        await employee.save()
+        
+        res.redirect('/employee')
+    } catch(err){
+
         console.log(err);
         res.send('Sorry! Something went wrong.');
-    })
+    }
+    
 })
 
 
 //exports
 module.exports = router;
+
+
+// const employee = new Employee(req.body);
+//     employee.imageupload = req.file.path;
+//     employee.save()
+//         .then(() => { res.redirect('/employee') })
+//         .catch((err) => {
+//             console.log(err);
+//             res.send('Sorry! Something went wrong.');
+//         })

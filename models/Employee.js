@@ -11,11 +11,7 @@ const employeeSchema = new mongoose.Schema({
         type: String,
         required: 'Please Enter last name'
     },
-    nin: {
-        type: String,
-        unique: true,
-        required: 'Please Enter NIN'
-    },
+    
     gender: String,
     pastincidences:[{
         type: String
@@ -24,6 +20,8 @@ const employeeSchema = new mongoose.Schema({
     role: String
 
 })
+
+//
 
 //export the mongoose model
 module.exports = mongoose.model('Employee', employeeSchema);

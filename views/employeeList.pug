@@ -1,0 +1,26 @@
+extends layout
+block content
+    header.card-header
+        h4.card-title Welcome 
+    div.form-row
+        div.col.form-group
+            a(href='/employee/createEmployee')  Add New Employee
+        div.pull-right
+        a(href='/order')  View Order List
+    table.table
+        thead.thead-dark
+            tr
+                th Full Name 
+                th Gender
+                th Past incidences
+                th Role
+                th
+                th
+        tbody
+            if users.length
+            each user in users
+                tr
+                    td #{user.lastname +' '+ user.firstname}
+                    td #{user.gender}
+                    td #{user.pastincidences}
+                    td #{user.role}

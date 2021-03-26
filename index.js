@@ -5,30 +5,27 @@ const express = require('express');
 const mongoose = require('mongoose');
 //const bodyParser = require('body-parser');
 
-require('dotenv');
+const dotenv = require("dotenv");
+
+dotenv.config();
 
 //instantiating express in constant app
 const app = express();
 
-mongoose.connect(
-  process.env.DB_CONNECTION, 
-  { useNewUrlParser: true }, 
-  () => {console.log('connected to DB');}
-);
 
-// //db connection
-// mongoose.connect(process.env.DATABASE, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
+//db connection
+mongoose.connect(process.env.DATABASE, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
-// mongoose.connection
-//   .on('open', () => {
-//     console.log('Mongoose connection open');
-//   })
-//   .once('error', (err) => {
-//     console.log(`Connection error: ${err.message}`);
-//   });
+mongoose.connection
+  .on('open', () => {
+    console.log('Mongoose connection open');
+  })
+  .once('error', (err) => {
+    console.log(`Connection error: ${err.message}`);
+  });
 
 //middleware
 app.use(express.urlencoded({ extended: true }));
