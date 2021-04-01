@@ -4,6 +4,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 //const bodyParser = require('body-parser');
+const passport = require('passport');
+//require expre session 
+const expressSession = require('express-session')({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: false
+});
+
 
 const dotenv = require("dotenv");
 
@@ -12,11 +20,22 @@ dotenv.config();
 //instantiating express in constant app
 const app = express();
 
+//import employee route
+const employeeRoutes = require('./routes/employeeRoute');
+const registerRoutes = require('./routes/registerRoutes');
+const loginRoutes = require('./routes/loginRoutes');
+
+//reg model
+const Registration = require('./models/Registration')
+
+
 
 //db connection
 mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+    useUnifiedTopology: true,
+    useCreateIndex:true,
+    useFindAndModify:false
 });
 
 mongoose.connection
@@ -29,6 +48,13 @@ mongoose.connection
 
 //middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(expressSession);
+app.use(passport.initialize());
+app.use(passport.session())
+
+passport.use(Registration.createStrategy());
+passport.serializeUser(Registration.serializeUser());
+passport.deserializeUser(Registration.deserializeUser());
 //configurations- setting pug as templete engine
 app.set('view engine', 'pug');
 app.set('views', './views');
@@ -39,8 +65,9 @@ app.use((req, res, next) => {
   next();
 });
 
-//middleware for serving static files(csss, js , images)
+// middleware for serving static files(css,js,images)
 app.use(express.static('public'));
+app.use('/public/images', express.static(__dirname + '/public/images'));
 
 // //createEmployee route
 // app.get('/createEmployee', (req, res) => {
@@ -49,11 +76,14 @@ app.use(express.static('public'));
 //     res.render('createEmployee', {title: 'Employee'});
 // });
 
-//import employee route
-const employeeRoutes = require('./routes/employeeRoute');
 
 //instantiting employee route
 app.use('/employee', employeeRoutes);
+//app.use('/', homeRoutes);
+app.use('/register', registerRoutes);
+app.use('/login', loginRoutes);
+
+
 
 //orders route
 app.get('/createOrders', (req, res) => {
@@ -67,10 +97,24 @@ app.get('*', (req, res) => {
   res.send('the route specified doesnt exist');
 });
 
+// logout
+app.post('/logout', (req, res) => {
+  if (req.session) {
+      req.session.destroy((err)=> {
+          if (err) {
+              console.log(err)
+          } else {
+              return res.redirect('/login');
+          }
+      })
+  }
+})
+
+
 //query parameters
 
 //server to run at port 3000
-app.listen(3000, () => console.log('listening on port 3000'));
+app.listen(5000, () => console.log('listening on port 3000'));
 
 /**
  * what is crud
