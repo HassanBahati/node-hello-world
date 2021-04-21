@@ -11,7 +11,6 @@ function introduction(firstname, lastname , callback){
 introduction('Racheal', 'Cynthia ', greeting)
 
 
-
 const weather = true
 
 const date = new Promise(function(resolve, reject) {
@@ -26,7 +25,7 @@ const date = new Promise(function(resolve, reject) {
     }else{
         reject(new Error('bad weather , so no date'))
     }
-})
+});
 
 const myDate = function(){
     date

@@ -97,6 +97,23 @@ router.post('/delete', async (req, res) => {
     } catch (err) {
         res.status(400).send("Unable to delete item in the database");
     }
+});
+
+
+//search employee
+router.get('/employeeList', async(req, res) =>{
+  
+    try {
+ //find all the data in the employee collection 
+ let employeeDetails = await Employee.find();
+     if(req.query.gender){
+       employeeDetails = await Employee.find({gender: req.query.gender});
+     }
+     res.render('employeeList', {users: employeeDetails, title:'Employee List'})
+    } catch (err) {
+      res.status(400).send('Failed to retrieve Employee Details');
+    }
+ 
 })
 
 
